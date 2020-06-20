@@ -1,0 +1,16 @@
+<div class="card mt-4">
+    <div class="card-header">
+        最新文章
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for post in recent_article_list %}
+            <li class="list-group-item">
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                </li>
+        {% empty %}
+            <li class="list-group-item">
+                暂无文章！
+            </li>
+        {% endfor %}
+    </ul>
+</div>

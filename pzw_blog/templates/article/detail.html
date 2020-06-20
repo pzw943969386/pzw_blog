@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load mptt_tags %}
+{% load static %}
+{% block title %}
+    文章详情
+{% endblock title %}
+
+{% block left %}
+
+
+                <h1 class="mt-4 mb-4">[{{ article.category }}]  {{ article.title }}</h1>
+                <div class="alert alert-success">
+                    <div>
+                        作者：<a style="text-decoration:none" href="{% url 'user:edit' article.author_id %}">{{ article.author }}</a>
+                        {% if user == article.author %}
+                            <a href="{% url "article:article_update" article.id %}" class="btn btn-success btn-sm">编辑文章</a>
+                            <a href="#" onclick="confirm_delete()" class="btn btn-danger btn-sm">删除文章</a>
+                        {% endif %}
+                    </div>
+                    <div>
+                        浏览数：{{ article.total_views }}
+                    </div>
+                </div>
+
+            <div>
+                <p>{{ article.content|safe }}</p>
+            </div>
+            <hr>
+            {% if user.is_authenticated %}
+                <div>
+                    <form action="{% url 'comment:post_comment' article.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="body">
+                                <strong>
+                                    我也要发言：
+                                </strong>
+                            </label>
+                        <div>
+            {{ comment_form.media }}
+            {{ comment_form.body }}
+        </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary ">发送</button>
+                    </form>
+                </div>
+                <br>
+            {% else %}
+                <br>
+                <h5 class="row justify-content-center">
+                    请<a href="{% url 'user:login' %}">登录</a>后评论
+                </h5>
+                <br>
+            {% endif %}
+
+            <!-- 显示评论 -->
+            <h4>共有{{ comments.count }}条评论</h4>
+            <div>
+                {% for comment in comments %}
+                    <hr>
+                    <p>用户<strong style="color: black"><a href="{% url 'user:edit' comment.user_id %}">{{ comment.user }}</a></strong> 于
+                    <span style="color: green">{{ comment.created|date:"Y-m-d H:i" }}</span> 时评论：
+                    </p>
+                    <pre style="font-family: inherit; font-size: 1em;">{{ comment.body|safe }}</pre>
+                {% endfor %}
+            </div>
+
+        {% endblock left %}
+        {% block right%}
+
+            <h4 class="pt-4"><strong>目录</strong></h4>
+            <hr>
+            <div>
+                {{ toc|safe }}
+            </div>
+
+    <script>
+        function confirm_delete() {
+            layer.open({
+                title: "确认删除",
+                content: "确认删除这篇文章吗？",
+                yes: function (index, layero) {
+                    location.href = '{% url "article:article_delete" article.id %}'
+                }
+            })
+        }
+    </script>
+
+    {% endblock right %}
+{% block script %}
+<script>
+    $(".django-ckeditor-widget").removeAttr('style');
+</script>
+{% endblock script %}
+
+

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load blog_sidebar %}
+{% block title %}文章分类{% endblock title %}
+
+{% block content %}
+<div class="container">
+<div class="row ">
+<div class="col-8">
+    <h4 class="pb-4 mb-4 border-bottom mt-3" style="border-bottom: 1px solid">文章归类</h4>
+    {#文章栏#}
+    {% for cate in category %}
+        <article class="post-wrapper">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4><b><a href="{% url 'article:article_detail' cate.id %}" style="color: black;">{{ cate.title }}</a></b></h4>
+                </div>
+                <div class="col-md-4">
+                    {% if cate.img %}
+                        <img class="post-thumb-image img-thumbnail" src="{{ cate.img.url }}">
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <p style="color: gray;">{{ cate.content|slice:'100' }}...</p>
+                </div>
+                <div class="col-md-12 post-meta">
+                    <ul>
+                        <li>标签：{% for tag in cate.tags.all %}
+                            <a href="{% url 'article:article_list' %}?tag={{ tag }}" class="badge badge-primary">{{ tag }}</a>{% endfor %}</li>
+                        <li>作者：{{ cate.author }}</li>
+                        <li>时间：{{ cate.created|date:'Y-m-d' }} </li>
+                        <li>浏览量：{{ cate.total_views }}</li>
+                        <li class="float-right"><a
+                                href="{% url 'article:article_detail' cate.id %}">阅读全文</a></li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+</div>
+<div class="col-4" >
+    {% show_recent_article %}
+    {% show_hot_article %}
+    {% show_archives %}
+    {% show_categories %}
+</div>
+</div>
+</div>
+{% endblock content %}
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load blog_sidebar %}
+{% block title %}关于我{% endblock title %}
+
+{% block content %}
+
+{% endblock content %}
+
+{% block left %}
+    <div class="card rounded-0 border-0 p-3 mt-5 bg-white">
+    <h4><strong>关于网站</strong></h4>
+    <hr>
+    <ul>
+        <li>本网站是一个博客网站，主要分享博主的学习笔记</li>
+        <li>网站主要使用 django + sqlite3 + bootstrap4搭建</li>
+        <li>我做这个网站的目的是为了把所学的东西运用起来，用来存放自己的学习笔记</li>
+    </ul>
+    <br>
+    <h4><strong>关于博主</strong></h4>
+    <hr>
+    <ul>
+        <li>博主是2018年末自学的Python语言，从此开始进行编程，在此之前是一名网络工程师，所以主要使用Python，顺带学习其他编程语言。</li>
+        <li>Python技能树：Django的web框架，requests/scrapy/selenium 为主的爬虫框架，正则表达式/Bs4/Xpath/ 等信息提取方式。</li>
+        <li>Linux技能树：LNMP架构的搭建，Ansible自动化部署的使用，Zabbix监控的运用，云服务部署及运维、docker容器的编排，会使用常用的shell命令及脚本编写</li>
+        <li>Golang技能树：Gin的web框架，docker部署</li>
+        <li>数据库技能树：常用MySQL作为web后端数据库，Redis用作缓存，熟悉常规的CURD操作</li>
+        <li>前端技能树：熟悉HTML基本规范，对CSS常规用法了解，JavaScript主要使用jQuery库，熟悉Bootstrap框架</li>
+        <li>联系邮箱：943969386@qq.com</li>
+    </ul>
+    <h4><strong>功能介绍</strong></h4>
+    <hr>
+    <ul>
+        <li>Django 自带的后台管理系统，方便对于文章、用户及其他内容的管理</li>
+        <li>登录用户可以对自己的文章进行修改</li>
+        <li>文章分类、标签、浏览量统计及发布时间</li>
+        <li>文章评论系统</li>
+        <li>文章支持 markdown 语法，可根据右侧目录进行阅读</li>
+        <li>强大的全文搜索功能，只需要输入关键词就能展现全站与之关联的文章</li>
+    </ul>
+    </div>
+{% endblock left %}
+
+{% block right %}
+    {% show_hot_article %}
+    {% show_recent_article %}
+    {% show_archives %}
+    {% show_categories %}
+{% endblock right %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} 注册 {% endblock title %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-4 offset-4" style="margin-top: 100px">
+        <form action="" method="post" id="registerForm" novalidate="novalidate">
+            {% csrf_token %}
+            {% for field in user_register_form %}
+            <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                <span style="color: red;font-size: 14px;">{{ field.errors.0 }}</span>
+            </div>
+            {% endfor %}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary pull-right">提交</button>
+                <a href='{% url "user:login" %}'>
+                <button type="button" class="btn btn-primary pull-right">已有账号,去登录</button>
+                </a>
+            </div>
+        </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

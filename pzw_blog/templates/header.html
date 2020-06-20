@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand hvr-grow-rotate" href="{% url 'article:article_list' %}" style="font-size: 1.5em">PZW的博客</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'article:article_list' %}">文章首页</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop"  data-toggle="dropdown">文章分类</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'article:category' 3 %}">Python</a>
+                            <a class="dropdown-item" href="{% url 'article:category' 2 %}">Linux</a>
+                            <a class="dropdown-item" href="{% url 'article:category' 1 %}">Mysql</a>
+                            <a class="dropdown-item" href="{% url 'article:category' 4 %}">其他</a>
+                        </div>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">关于博主</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'liuyan:index'  %}">给我留言</a></li>
+            </ul>
+            <ul class="navbar-nav ml-md-auto" style="margin: -5px 0 -5px 0">
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ request.user.username }}</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href='{% url "user:edit" request.user.id %}'>个人信息</a>
+                            <a class="dropdown-item" href="{% url 'article:article_create' %}">发表文章</a>
+                            <a class="dropdown-item" href="{% url "user:set_password" user.id %}">修改密码</a>
+                            <a class="dropdown-item" href="{% url "user:logout" %}">退出登录</a>
+
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'user:login' %}">登录</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+</body>
+</html>

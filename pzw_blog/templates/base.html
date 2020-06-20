@@ -1,0 +1,43 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <script src="{% static 'jquery/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'layer/layer.js' %}"></script>
+
+</head>
+<body>
+{% include 'header.html' %}
+
+<div id="wrapper">
+{% block content %}
+
+{% endblock content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-xs-12">
+        {% block left %}
+
+        {% endblock left%}
+        </div>
+        <div class="col-md-4">
+        {% block right %}
+
+        {% endblock right %}
+        </div>
+    </div>
+</div>
+<div id="push"></div>
+</div>
+
+{% include 'footer.html' %}
+
+{% block script %}{% endblock script %}
+</body>
+</html>

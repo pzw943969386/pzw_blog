@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load blog_sidebar %}
+{% block title %}归档{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="row ">
+            <div class="col-8">
+                <h4 class="pb-4 mb-4 border-bottom mt-3" style="border-bottom: 1px solid">文章归档</h4>
+                {#文章栏#}
+                {% for post in post_list %}
+                    <article class="post-wrapper">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4><b><a href="{% url 'article:article_detail' post.id %}"
+                                          style="color: black;">{{ post.title }}</a></b></h4>
+                            </div>
+                            <div class="col-md-4">
+                                {% if post.img %}
+                                    <img class="post-thumb-image img-thumbnail" src="{{ post.img.url }}"
+                                         alt="avatar">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <p style="color: gray;word-wrap:break-word;">{{ post.content|slice:'100' }}...</p>
+                            </div>
+                            <div class="col-md-12 post-meta">
+                                <ul>
+                                    <li>标签：{% for tag in post.tags.all %}
+                                        <a href="{% url 'article:article_list' %}?tag={{ tag }}"
+                                           class="badge badge-primary">{{ tag }}</a>{% endfor %}</li>
+                                    <li>作者：{{ post.author }}</li>
+                                    <li>时间：{{ post.created|date:'Y-m-d' }} </li>
+                                    <li>浏览量：{{ post.total_views }}</li>
+                                    <li class="float-right"><a
+                                            href="{% url 'article:article_detail' post.id %}">阅读全文</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+            <div class="col-4">
+                {% show_recent_article %}
+                {% show_hot_article %}
+                {% show_archives %}
+                {% show_categories %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+
+
+
+

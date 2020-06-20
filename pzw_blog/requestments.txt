@@ -1,0 +1,6 @@
+Django==2.1
+Markdown==2.6.11
+django-password-reset==2.0
+pillow
+django-ckeditor
+django-taggit

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load blog_sidebar %}
+{% block title %}首页{% endblock title %}
+
+{% block content %}
+    {% include 'jumbotron.html' %}
+{% endblock content %}
+
+{% block left %}
+
+    <h4 class="pb-4 mb-4 border-bottom" style="border-bottom: 1px solid">文章阅读
+        <a style="float: right;color: green;text-decoration: none" href="{% url 'article:article_list' %}?search={{ search }}&tag={{ tag }}">最新</a>
+        <a style="float: right;color: red;text-decoration: none" href="{% url 'article:article_list' %}?order=total_views&search={{ search }}&tag={{ tag }}">最热/</a>
+    </h4>
+    {#文章栏#}
+    {% for article in articles %}
+        <article class="post-wrapper">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>[{{ article.category }}]<b><a href="{% url 'article:article_detail' article.id %}" style="color: black;">{{ article.title }}</a></b></h4>
+                </div>
+                <div class="col-md-4">
+                    {% if article.img %}
+                        <img class="post-thumb-image img-thumbnail" src="{{ article.img.url }}" alt="img">
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <p style="color: gray;word-wrap:break-word;">{{ article.content|slice:'100' }}...</p>
+                </div>
+                <div class="col-md-12 post-meta">
+                    <ul>
+                        <li>标签：{% for tag in article.tags.all %}<a href="{% url 'article:article_list' %}?tag={{ tag }}" class="badge badge-primary mr-1">{{ tag }}</a>{% endfor %}</li>
+                        <li>作者：<a href="{% url 'user:edit' article.author_id %}" style="text-decoration: none">{{ article.author }}</a></li>
+                        <li>时间：{{ article.created|date:'Y-m-d' }} </li>
+                        <li>浏览量：{{ article.total_views }}</li>
+                        <li class="float-right"><a href="{% url 'article:article_detail' article.id %}">阅读全文</a></li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+    {#分页#}
+    <div class="pagination row mb-5">
+        <div class="m-auto">
+    <span class="step-links">
+        {% if articles.has_previous %}
+            <a href="?page=1&order={{ order }}&search={{ search }}&tag={{ tag }}" class="btn btn-success">首页</a>
+            <a href="?page={{ articles.previous_page_number }}&order={{ order }}&search={{ search }}&tag={{ tag }}" class="btn btn-secondary">{{ articles.previous_page_number }}</a>
+        {% endif %}
+            <span class="current btn btn-danger btn-lg">{{ articles.number }}</span>
+        {% if articles.has_next %}
+            <a href="?page={{ articles.next_page_number }}&order={{ order }}&search={{ search }}&tag={{ tag }}" class="btn btn-secondary">{{ articles.next_page_number }}</a>
+            <a href="?page={{ articles.paginator.num_pages }}&order={{ order }}&search={{ search }}&tag={{ tag }}" class="btn btn-success">尾页</a>
+        {% endif %}
+    </span>
+        </div>
+    </div>
+{% endblock left %}
+
+
+{% block right %}
+
+
+    <div class="card">
+        <h5 class="card-header">博主简介</h5>
+        <img src="{% static 'img/user.jpg' %}" class="card-img-top"
+             style="border-radius: 50%;margin: 20px auto 20px;width: 140px;height: 140px">
+        <div class="card-body">
+            <h5 class="card-title text-center">PZW</h5>
+            <p class="card-text" style="font-size: 14px">一名编程路上的小白，熟悉Linux和Python及go语言编程，如果有什么问题，欢迎和我一起探讨！</p>
+        </div>
+    </div>
+
+    {% show_recent_article %}
+    {% show_hot_article %}
+    {% show_archives %}
+    {% show_categories %}
+
+    <div class="mb-5">
+    <form class="form-inline mb-5">
+        <label class="sr-only">content</label>
+        <input type="text" class="form-control mt-4 col-12" name="search" placeholder="搜索文章..." required>
+    </form>
+    {% if search %}
+        {% if articles %}
+            <h4><span style="color: red;margin-left: 20px">"{{ search }}"</span>的搜索结果如左边文章栏所示：</h4>
+            <hr>
+        {% else %}
+            <h4>暂无找到与<span style="color: red">"{{ search }}"</span>有关的文章。</h4>
+            <hr>
+        {% endif %}
+    {% endif %}
+    </div>
+{% endblock right %}
+
+

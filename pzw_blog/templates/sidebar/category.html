@@ -1,0 +1,19 @@
+<div class="card mt-4">
+    <div class="card-header">
+        文章分类
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for category in category_list %}
+            <li class="list-group-item">
+                <a href="{% url 'article:category' category.id %}">
+                    {{ category.name }}
+                </a>
+                <span class="badge badge-primary badge-pill" >{{ category.num_posts }}</span>
+                </li>
+        {% empty %}
+            <li class="list-group-item">
+                暂无分类！
+            </li>
+        {% endfor %}
+    </ul>
+</div>

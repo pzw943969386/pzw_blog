@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %} 留言 {% endblock title %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 offset-md-1 pt-5">
+            <h3><strong>留言板</strong></h3>
+        <form action="" method="post">
+            {% csrf_token %}
+            <textarea type="text" class="form-control col-12" id="content" name="content" rows="12"></textarea>
+            <button type="submit" class="btn btn-primary mt-3">提交留言</button>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
